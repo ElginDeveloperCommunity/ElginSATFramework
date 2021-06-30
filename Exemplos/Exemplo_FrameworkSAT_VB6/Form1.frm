@@ -1,21 +1,69 @@
 VERSION 5.00
 Begin VB.Form Form1 
    Caption         =   "Framework SAT"
-   ClientHeight    =   3090
+   ClientHeight    =   7050
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   11100
+   ClientWidth     =   6705
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3090
-   ScaleWidth      =   11100
+   ScaleHeight     =   7050
+   ScaleWidth      =   6705
    StartUpPosition =   3  'Windows Default
+   Begin VB.Frame Frame3 
+      Caption         =   "Venda modelo 2"
+      Height          =   2295
+      Left            =   240
+      TabIndex        =   7
+      Top             =   1800
+      Width           =   6255
+      Begin VB.CommandButton Command7 
+         Caption         =   "..."
+         Height          =   375
+         Left            =   5760
+         TabIndex        =   12
+         Top             =   360
+         Width           =   255
+      End
+      Begin VB.CommandButton Command6 
+         Caption         =   "Processa Venda"
+         Height          =   495
+         Left            =   240
+         TabIndex        =   11
+         Top             =   1680
+         Width           =   5775
+      End
+      Begin VB.CommandButton Command5 
+         Caption         =   "Gera XML Venda"
+         Height          =   435
+         Left            =   240
+         TabIndex        =   10
+         Top             =   840
+         Width           =   5775
+      End
+      Begin VB.TextBox Text2 
+         Height          =   375
+         Left            =   240
+         TabIndex        =   8
+         Text            =   "./"
+         Top             =   360
+         Width           =   5415
+      End
+      Begin VB.Label Label1 
+         Caption         =   "./"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   9
+         Top             =   1320
+         Width           =   5535
+      End
+   End
    Begin VB.Frame Frame2 
       Caption         =   "Cancelamento"
       Height          =   2535
-      Left            =   4440
+      Left            =   240
       TabIndex        =   1
-      Top             =   240
-      Width           =   6375
+      Top             =   4200
+      Width           =   6255
       Begin VB.CommandButton Command4 
          Caption         =   "Processar cancelamento"
          Height          =   495
@@ -42,18 +90,18 @@ Begin VB.Form Form1
    End
    Begin VB.Frame Frame1 
       Caption         =   "Venda"
-      Height          =   2535
+      Height          =   1335
       Left            =   240
       TabIndex        =   0
       Top             =   240
-      Width           =   3855
+      Width           =   6255
       Begin VB.CommandButton Command2 
          Caption         =   "Processar Venda"
          Height          =   495
-         Left            =   360
+         Left            =   3240
          TabIndex        =   3
-         Top             =   1200
-         Width           =   3135
+         Top             =   480
+         Width           =   2775
       End
       Begin VB.CommandButton Command1 
          Caption         =   "Gerar XML Venda"
@@ -61,7 +109,7 @@ Begin VB.Form Form1
          Left            =   360
          TabIndex        =   2
          Top             =   480
-         Width           =   3135
+         Width           =   2775
       End
    End
 End
@@ -136,3 +184,68 @@ retorno = StrPtrToString(ptr)
 MsgBox retorno
 
 End Sub
+
+
+Private Sub Command5_Click()
+Dim ptr As Long
+Dim caminho As String
+
+If Text2.Text = "" Then
+    caminho = "./"
+End If
+
+ptr = AbreCupomVenda2(caminho, "0.08", "16716114000172", "SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT", 123, "14200166000166", "111111111111", "123123", "", "n", "", "", "")
+
+caminho = StrPtrToString(ptr)
+Label1.Caption = caminho
+
+nItem = InformaProduto(caminho, "0001", "", "CEST", "47061000", "1234567", "5757", "kg", "1.0000", "100.00", "a", "", "")
+
+aux = InformaImposto(caminho, nItem, "1.00")
+aux = InformaICMS40(caminho, nItem, 3, "40")
+aux = InformaPISNT(caminho, nItem, "04")
+aux = InformaCOFINSNT(caminho, nItem, "04")
+aux = InformaTotal(caminho, "", "", "")
+aux = InformaPgto(caminho, "01", "100.00", "")
+
+MsgBox ("ok")
+End Sub
+
+Private Sub Command6_Click()
+Dim retorno As String
+Dim ptr As Long
+Dim val() As String
+
+ptr = FechaCupomVenda(Label1.Caption, "123456789")
+
+retorno = StrPtrToString(ptr)
+
+val = Split(retorno, "|")
+
+If UBound(val) > 1 Then
+    If val(1) = "06000" Then
+        Text1.Text = val(8)
+    End If
+End If
+
+
+MsgBox retorno
+End Sub
+
+Private Sub Command7_Click()
+Dim Folder As Object
+    
+    With CreateObject("Shell.Application")
+        Set Folder = .BrowseForFolder(hWnd, "Pick a folder", BIF_RETURNONLYFSDIRS _
+                                                          Or BIF_SHAREABLE _
+                                                          Or BIF_NEWDIALOGSTYLE _
+                                                          Or BIF_NONEWFOLDERBUTTON)
+    End With
+    If Folder Is Nothing Then
+        Text2.Text = "Canceled"
+    Else
+        Text2.Text = Folder.Self.path
+    End If
+
+End Sub
+

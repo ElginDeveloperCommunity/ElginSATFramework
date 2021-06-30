@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Unit2, System.StrUtils;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Unit2, System.StrUtils, Vcl.FileCtrl;
 
 type
   TForm1 = class(TForm)
@@ -15,10 +15,19 @@ type
     GroupBox1: TGroupBox;
     Button3: TButton;
     Button2: TButton;
+    GroupBox3: TGroupBox;
+    Edit2: TEdit;
+    Button5: TButton;
+    Label1: TLabel;
+    Button6: TButton;
+    Button7: TButton;
     procedure Button3Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -62,8 +71,6 @@ begin
         Edit1.Text := dadosVenda[8];
     end;
   end;
-
-
 
 end;
 
@@ -125,6 +132,92 @@ begin
                         'SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT',
                         123);
   ShowMessage('ok');
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+var
+  caminho : String;
+  nitem:Integer;
+begin
+
+  caminho := Edit2.Text;
+
+  if caminho = '' then
+    caminho := './';
+
+  caminho := AbreCupomVenda2(caminho,                                               //Caminho arquivo
+                 '0.08',                                             //layout do xml
+                 '16716114000172',                                   //CNPJ SH
+                 'SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT',    //Assinatura SH
+                 123,                                                //Numero caixa
+                 '14200166000166',                                   //CNPJ Emitente
+                 '111111111111',                                     //IE
+                 '123123',                                           //IM
+                 '',                                                 //Regime Especial de Tributação do ISSQN
+                 'n',                                                //Indicador de rateio do Desconto sobre subtotal entre itens sujeitos à tributação pelo ISSQN
+                 '',                                                 //CNPJ Destinatário
+                 '',                                                 //CPF Destinatário
+                 '');                                                //Razão Social ou Nome do destinatário
+
+  Label1.Caption := caminho;
+
+  nitem := informaProduto(caminho,     //caminho arquivo
+                          '0001',   //cprod
+                          '',       //cean
+                          'CEST',   //xprod
+                          '47061000',//ncm
+                          '1234567',//cest
+                          '5757',   //cfop
+                          'kg',     //ucom
+                          '1.0000', //qcom
+                          '100.00', //vuncom
+                          'a',      //indregra
+                          '',       //vdesc
+                          '');      //voutro
+
+  informaImposto(caminho, nitem, '1.00');
+
+  informaICMS40(caminho, nitem, 3, '40');
+
+  informaPISNT(caminho, nitem, '04');
+
+  informaCOFINSNT(caminho, nitem, '04');
+
+  informaTotal(caminho, '', '', '');
+
+  informaPgto(caminho, '01', '100.00', '');
+
+  ShowMessage('ok');
+
+end;
+
+procedure TForm1.Button6Click(Sender: TObject);
+var
+  retornoSat : PAnsiChar;
+  dadosVenda : TArray<String>;
+begin
+  retornosat := fechaCupomVenda(Label1.Caption, '123456789');
+  ShowMessage(retornoSat);
+
+  dadosVenda := SplitString(retornoSat, '|');
+
+  if Length(dadosVenda) > 1 then
+  begin
+    if dadosVenda[1] = '06000' then
+    begin
+        Edit1.Text := dadosVenda[8];
+    end;
+  end;
+end;
+
+procedure TForm1.Button7Click(Sender: TObject);
+var
+  Dir: string;
+begin
+  Dir := 'C:\Windows';
+  if SelectDirectory(Dir, [sdAllowCreate, sdPerformCreate, sdPrompt], 0) then
+    Edit2.text := Dir;
+
 end;
 
 end.
