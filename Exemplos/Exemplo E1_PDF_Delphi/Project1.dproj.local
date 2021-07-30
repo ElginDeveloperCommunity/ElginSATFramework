@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/05/25 10:03:22.000.200,=D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Unit1.pas</Transaction>
+    <Transaction>2021/05/25 10:03:55.000.411,=D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Unit2.pas</Transaction>
+    <Transaction>2021/05/25 10:06:21.000.413,D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Unit2.pas=D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\FuncoesDLL.pas</Transaction>
+    <Transaction>2021/05/25 10:08:38.000.668,D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Unit1.dfm=D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Home.dfm</Transaction>
+    <Transaction>2021/05/25 10:08:38.000.668,D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Unit1.pas=D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Home.pas</Transaction>
+    <Transaction>2021/05/25 14:30:38.000.054,D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Project1.dproj=D:\Documentos\Projetos\Embarcadero\Studio\Projects\Exemplo_E1PDF\Project1.dproj</Transaction>
+    <Transaction>2021/07/28 16:26:09.746,C:\Users\automacao\Desktop\Exemplo_E1PDF\Project1.dproj=C:\Users\automacao\Desktop\Exemplo_E1PDF\Project1.dproj</Transaction>
+    <Transaction>2021/07/29 16:31:26.659,C:\Users\automacao\Desktop\Exemplo_E1PDF\Project1.dproj=C:\Users\automacao\Desktop\Exemplo_E1PDF\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
